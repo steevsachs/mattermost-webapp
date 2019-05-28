@@ -472,7 +472,6 @@ export default class FileUpload extends PureComponent {
 
             items.push(item);
         }
-
         if (items && items.length > 0) {
             if (!this.props.canUploadFiles) {
                 this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
@@ -505,7 +504,9 @@ export default class FileUpload extends PureComponent {
 
                 const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
 
-                files.push(new File([file], name));
+                const newFile = new Blob([file], {type: file.type});
+                newFile.name = name;
+                files.push(newFile);
             }
 
             if (files.length > 0) {
